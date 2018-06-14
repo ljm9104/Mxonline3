@@ -65,7 +65,7 @@ ROOT_URLCONF = 'mxonline3.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,7 +92,7 @@ DATABASES = {
         'HOST': '140.143.207.112',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': '18515663268Ming!'
+        'PASSWORD': '18515663268Ming!',
     }
 }
 
