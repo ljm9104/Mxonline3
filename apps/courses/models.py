@@ -39,7 +39,7 @@ class Lesson(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.name
+        return "{0}章节的视频 >> {1}".format(self.lesson, self.name)
 
 
 # 每章视频
