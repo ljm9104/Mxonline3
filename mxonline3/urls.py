@@ -18,7 +18,7 @@ from django.conf.urls import url
 # from django.contrib import admin
 from django.views.generic import TemplateView, RedirectView
 
-from users.views import user_login
+from users.views import LoginView
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^favicon.ico$', RedirectView.as_view(url=r'static/favicon.ico')),
     # 登陆页面
     # url(r'^login/$', TemplateView.as_view(template_name='login.html'), name='login'),
-    url(r'^login/$', user_login, name='login'),
+    # url(r'^login/$', user_login, name='login'),
+    url('^login/$', LoginView.as_view(), name="login"),
     # 注册
     url(r'^register/$', TemplateView.as_view(template_name='register.html'), name='register'),
 

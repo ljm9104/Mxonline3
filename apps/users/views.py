@@ -2,6 +2,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import authenticate, login
 from django.db.models import Q
 from django.shortcuts import render
+from django.views.generic.base import View
 
 from users.models import UserProfile
 
@@ -21,8 +22,27 @@ class CustomBackend(ModelBackend):
             return None
 
 
+# 基于类的方法
+class LoginView(View):
+    # 直接调用get方法免去判断
+    def get(self, request):
+        return render(request, "login.html", {})
+
+    def post(self, request):
+        # 取不到时为空，username，password为前端页面name值
+        user_name = request.POST.get("username", "")
+        pass_word = request.POST.get("password", "")
+        user = authenticate(username=user_name, password=pass_word)
+
+        if user is not None:
+            login(request, user)
+            return render(request, "index.html")
+        else:
+            return render(request, "login.html", {"msg": "用户名或密码错误! "})
+
+
 # Django默认我们使用用户名和密码来登录，用Django提供的login，用于登陆验证，用user_login区分
-def user_login(request):
+'''def user_login(request):
     # 前端向后端发送的请求方式: get 或post, 提交表单post
     if request.method == "POST":
         user_name = request.POST.get("username", "")
@@ -39,3 +59,4 @@ def user_login(request):
     elif request.method == "GET":
         # render就是渲染html返回用户, render三变量: request 模板名称 一个字典写明传给前端的值
         return render(request, "login.html", {})
+'''
