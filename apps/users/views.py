@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic.base import View
 
+from users.forms import LoginForm
 from users.models import UserProfile
 
 
@@ -29,6 +30,28 @@ class LoginView(View):
         return render(request, "login.html", {})
 
     def post(self, request):
+        # 类实例化需要一个字典参数request.POST就是一个QueryDict所以直接传入,POST中的username, password，会对应到form中
+        login_form = LoginForm(request.POST)
+        # is_valid判断我们字段是否有错执行我们原有逻辑，验证失败跳回login页面
+        if login_form.is_valid():
+            # 取不到时为空，username，password为前端页面name值
+            user_name = request.POST.get("username", "")
+            pass_word = request.POST.get("password", "")
+
+            # 成功返回user对象,失败返回null
+            user = authenticate(username=user_name, password=pass_word)
+
+            if user is not None:
+                login(request, user)
+                # 跳转到首页 user request会被带回到首页
+                return render(request, "index.html")
+            # 验证不成功跳回登录页面, 没有成功说明里面的值是None，并再次跳转回主页面
+            else:
+                return render(request, "login.html", {"msg": "用户名或密码错误! "})
+        else:
+            return render(request, "login.html", {'login_form': login_form})
+
+    '''def post(self, request):
         # 取不到时为空，username，password为前端页面name值
         user_name = request.POST.get("username", "")
         pass_word = request.POST.get("password", "")
@@ -39,7 +62,7 @@ class LoginView(View):
             return render(request, "index.html")
         else:
             return render(request, "login.html", {"msg": "用户名或密码错误! "})
-
+    '''
 
 # Django默认我们使用用户名和密码来登录，用Django提供的login，用于登陆验证，用user_login区分
 '''def user_login(request):
