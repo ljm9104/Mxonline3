@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'organization',
     'operation',
     'xadmin',
-    'crispy_forms'
+    'crispy_forms',
+    'captcha',
 
 ]
 
@@ -139,3 +140,10 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+EMAIL_HOST = "smtp.qq.com"
+EMAIL_PORT = 25
+EMAIL_HOST_USER = "1037825560@qq.com"
+EMAIL_HOST_PASSWORD = "dpdieoybvywnbeii"
+EMAIL_USE_TLS = False
+EMAIL_FROM = "mxonline.cn"
