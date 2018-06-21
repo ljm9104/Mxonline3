@@ -18,7 +18,7 @@ from django.conf.urls import url, include
 # from django.contrib import admin
 from django.views.generic import TemplateView, RedirectView
 
-from users.views import LoginView, RegisterView, ActiveUserView
+from users.views import LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -36,4 +36,11 @@ urlpatterns = [
     url(r'^captcha/', include('captcha.urls')),
     # 激活用户url
     url(r'^active/(?P<active_code>.*)/$', ActiveUserView.as_view(), name="user_active"),
+    # 忘记密码
+    url('^forget/$', ForgetPwdView.as_view(), name="forget_pwd"),
+    # 重置密码
+    url('^reset/(?P<active_code>.*)/$', ResetView.as_view(), name="reset_pwd"),
+    # 修改密码url;
+    url(r'^modify_pwd/$', ModifyPwdView.as_view(), name="modify_pwd"),
+
 ]
